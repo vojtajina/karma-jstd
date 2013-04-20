@@ -46,6 +46,24 @@ function ConditionalTestCase(name, condition, proto, type) {
 // helper functions
 function emptyFunc() {
 }
+/**
+ * injectHTML is a function to add content to the body of the page.
+ * @param sHTML
+ */
+function injectHTML(sHTML) {
+  var docFrag = document.createDocumentFragment(),
+    layer = document.createElement('div'),
+    content;
+
+  layer.innerHTML = sHTML;
+  while (layer.firstChild) {
+    docFrag.appendChild(layer.firstChild);
+  }
+
+  content = docFrag.childNodes.length > 1 ? docFrag : docFrag.firstChild;
+
+  document.body.appendChild(content);
+}
 
 // matchers
 /**
