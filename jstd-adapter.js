@@ -11,54 +11,56 @@
  */
 
 
-var __jstd_specs = {}, startJasmine, assert, assertTrue, ASYNC_TYPE = 'async';
+var __jstd_specs = {};
+var ASYNC_TYPE = 'async';
 
-function TestCase(name, proto, type) {
+var TestCase = function (name, proto, type) {
   var prototype = __jstd_specs[name] = proto || {};
 
   return {
     prototype: prototype
   };
-}
+};
 
-function AsyncTestCase(name, proto) {
+var AsyncTestCase = function (name, proto) {
   return TestCase(name, proto, ASYNC_TYPE);
-}
+};
 
-function ConditionalTestCase(name, condition, proto, type) {
+var ConditionalTestCase = function (name, condition, proto, type) {
   if (condition()) {
     return TestCase(name, proto, type);
   }
-}
+};
 
-function ConditionalAsyncTestCase(name, condition, proto){
+var ConditionalAsyncTestCase = function (name, condition, proto) {
   return ConditionalTestCase(name, condition, proto, ASYNC_TYPE);
-}
+};
 
-function injectHTML(sHTML) {
-  var docFrag = document.createDocumentFragment(),
-    layer = document.createElement('div'),
-    content;
+var injectHTML = function (sHTML) {
+  var docFrag = document.createDocumentFragment();
+  var layer = document.createElement('div');
 
   layer.innerHTML = sHTML;
   while (layer.firstChild) {
     docFrag.appendChild(layer.firstChild);
   }
 
-  content = docFrag.childNodes.length > 1 ? docFrag : docFrag.firstChild;
+  var content = docFrag.childNodes.length > 1 ? docFrag : docFrag.firstChild;
 
   document.body.appendChild(content);
-}
+};
 
 // matchers
 
-assert = assertTrue = function (message, actual) {
+var assert = function (message, actual) {
   if (arguments.length < 2) {
     actual = message;
   }
 
   expect(actual).toBeTruthy();
 };
+
+var assertTrue = assert;
 
 var fail = function (sMessage) {
   throw new Error(sMessage);
@@ -105,7 +107,7 @@ var assertNotSame = function (message, expected, actual) {
     expected = message;
   }
 
-  expect(oActual).not.toBe(oExpected);
+  expect(actual).not.toBe(expected);
 };
 
 var assertNull = function (message, actual) {
@@ -268,7 +270,7 @@ var assertClassName = function (message, className, element) {
     className = message;
   }
 
-  expect(element.className.split(" ")).toContain(className);
+  expect(element.className.split(' ')).toContain(className);
 };
 
 var assertElementId = function (message, id, element) {
@@ -298,16 +300,16 @@ var assertNotInstanceOf = function (message, constructor, actual) {
   expect(actual instanceof constructor).toBeFalsy();
 };
 
-startJasmine = window.__karma__.start;
+var startJasmine = window.__karma__.start;
 window.__karma__.start = function () {
   // register all jstd tests as jasmine specs, before starting jasmine
   Object.keys(__jstd_specs).forEach(function (testName) {
-    var prototype = __jstd_specs[testName],
-      setUp = prototype.setUp || function () {
-      },
-      tearDown = prototype.tearDown || function () {
-      },
-      specNames = Object.keys(prototype);
+    var prototype = __jstd_specs[testName];
+    var setUp = prototype.setUp || function () {
+    };
+    var tearDown = prototype.tearDown || function () {
+    };
+    var specNames = Object.keys(prototype);
 
     // setUp and tearDown callbacks are executed as beforeEach and afterEach
     describe(testName, function () {
