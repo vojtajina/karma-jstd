@@ -238,7 +238,7 @@ var assertString = function (message, actual) {
 };
 
 var assertMatch = function (message, regexp, actual) {
-  if (arguments.length < 2) {
+  if (arguments.length < 3) {
     actual = regexp;
     regexp = message;
   }
@@ -247,7 +247,7 @@ var assertMatch = function (message, regexp, actual) {
 };
 
 var assertNoMatch = function (message, regexp, actual) {
-  if (arguments.length < 2) {
+  if (arguments.length < 3) {
     actual = regexp;
     regexp = message;
   }
