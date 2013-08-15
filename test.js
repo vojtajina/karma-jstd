@@ -32,6 +32,34 @@ TestCase("OtherTest", {
     }
 });
 
+(function () {
+    var testCaseRef = {
+        sHello: null,
+        helperMethod: function () {
+          return true;
+        },
+        setUp: function(){
+            assertSame("this in setUp should refernce the TestCase object", testCaseRef, this);
+            this.sHello = "Hello World!";
+        },
+        tearDown: function(){
+            assertSame("this in tearDown should reference the TestCase object", testCaseRef, this);
+            this.sHello = null;
+        },
+        "test reference TestCase object": function () {
+            assertSame("this in test should reference the TestCase object", testCaseRef, this);
+        },
+        "test have value from setUp": function() {
+            assertEquals("Hello World!", this.sHello);
+        },
+        "test allow helper methods": function () {
+            assertTrue(this.helperMethod());
+        }
+    };
+
+    TestCase("ThisReferences", testCaseRef);
+})();
+
 describe('jasmine spec', function() {
   it('should work', function() {
     expect(true).toBe(true);
