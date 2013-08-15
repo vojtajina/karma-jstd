@@ -47,7 +47,7 @@ var injectHTML = function (sHTML) {
 
   var content = docFrag.childNodes.length > 1 ? docFrag : docFrag.firstChild;
 
-  document.body.appendChild(content);
+  return document.body.appendChild(content);
 };
 
 // matchers
