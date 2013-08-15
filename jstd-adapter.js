@@ -314,16 +314,18 @@ window.__karma__.start = function () {
     // setUp and tearDown callbacks are executed as beforeEach and afterEach
     describe(testName, function () {
       beforeEach(function () {
-        setUp.call(this);
+        setUp.call(prototype);
       });
       afterEach(function () {
-        tearDown.call(this);
+        tearDown.call(prototype);
         // Clean document.body content.
         document.body.innerHTML = '';
       });
       specNames.forEach(function (specName) {
         if (specName.indexOf('test') === 0) {
-          it(specName.replace(/^test/, 'should '), prototype[specName]);
+          it(specName.replace(/^test/, 'should '), function () {
+            prototype[specName]();
+          });
         }
       });
     })
